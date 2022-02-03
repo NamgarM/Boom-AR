@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
+  m_Name: TrackingCards
+  m_EditorClassIdentifier: 
+  m_GuidLow: 5178382336433588139
+  m_GuidHigh: 13713082882573012609
+  m_Images:
+  - m_SerializedGuid:
+      m_GuidLow: 5099137062244661118
+      m_GuidHigh: 14556752562985282215
+    m_SerializedTextureGuid:
+      m_GuidLow: 2050326933716536103
+      m_GuidHigh: 15598679855134295051
+    m_Size: {x: 0.04, y: 0.061317366}
+    m_SpecifySize: 1
+    m_Name: JinxCard
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5271056433605246811
+      m_GuidHigh: 9760202854308204712
+    m_SerializedTextureGuid:
+      m_GuidLow: 13750872923655449094
+      m_GuidHigh: 7217618934882225803
+    m_Size: {x: 0.04, y: 0.06472819}
+    m_SpecifySize: 1
+    m_Name: HealingCard
+    m_Texture: {fileID: 0}
