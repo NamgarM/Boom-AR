@@ -22,7 +22,7 @@ public class CardCharacterController
     private CardCharacterView _characterView; //{ get; private set; }
     private SignalBus _signalBus;
 
-    public Action<CardCharacterInconstantModel, CardCharacterInconstantModel> CardsCollided;
+    public Action<string, CardCharacterInconstantModel> CardsCollided;
     public Action<CardCharacterInconstantModel> RemoveCards;
 
     public CardCharacterConstantModel _characterConstantModel = new CardCharacterConstantModel();
@@ -76,10 +76,18 @@ public class CardCharacterController
             {
                 ApplyPowerUp(collidedCardCharacterInconstantModel, currentCardCharacterInconstantModel);
                 RemoveCards.Invoke(currentCardCharacterInconstantModel);
+                
+                // Update view
+                CardsCollided.Invoke("Healing", currentCardCharacterInconstantModel);
+                CardsCollided.Invoke(null, collidedCardCharacterInconstantModel);
             } else if(collidedCardCharacterConstantModel.Skill == "Heal")
             {
                 ApplyPowerUp(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel);
                 RemoveCards.Invoke(collidedCardCharacterInconstantModel);
+
+                // Update view
+                CardsCollided.Invoke("Healing", collidedCardCharacterInconstantModel);
+                CardsCollided.Invoke(null, currentCardCharacterInconstantModel);
             }
 
             // Save in dictionary
@@ -88,7 +96,7 @@ public class CardCharacterController
             CardCharacterModels[characterCollidedSignal.CollidedCharacterId].CharacterInconstantModel =
                 collidedCardCharacterInconstantModel;
             // Invoke view
-            CardsCollided.Invoke(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel);
+            //CardsCollided.Invoke(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel);
 
             // To clean next time
             _characterId = characterCollidedSignal.CharacterId;

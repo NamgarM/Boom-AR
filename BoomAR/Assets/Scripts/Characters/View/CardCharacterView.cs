@@ -45,7 +45,8 @@ namespace GrowAR.Characters.View
                 .Add(characterConstantModel.CharacterId, cardCharacterModel);
 
             _characterController.SetCharacterView(this);
-            // 
+
+            UpdateView(null, characterInconstantModel);
             _characterController.CardsCollided += UpdateView;
 
         }
@@ -60,23 +61,46 @@ namespace GrowAR.Characters.View
 
         }
 
-        private void UpdateView(CardCharacterInconstantModel firstCharacterInconstantModel,
-            CardCharacterInconstantModel secondCharacterInconstantModel)
+        private void UpdateView(string animationType, CardCharacterInconstantModel characterInconstantModel)
         {
+            // Play animation
+            switch(animationType)
+            {
+                case "Healing":
+                    break;
+                case null:
+                    break;
+            }
+
+            // Update Healthbar
+            _healthBar.value = characterInconstantModel.CurrentHealth;
+            _attackPowerBar.value = characterInconstantModel.CurrentEnergy;
+
+            if (_healthBar.value <= 0)
+                this.gameObject.SetActive(false);
+
+            /*
+            // Check first
             if (firstCharacterInconstantModel.CharacterId == this.gameObject.name)
             {
                 if (firstCharacterInconstantModel.CurrentHealth <= 0)
                 {
+                    // Animation of health that disappears
                     this.gameObject.SetActive(false);
                 }
+                // Animation of attack
+                // Animation of healing
             }
+
+            // Check second
             if (secondCharacterInconstantModel.CharacterId == this.gameObject.name)
             {
                 if (secondCharacterInconstantModel.CurrentHealth <= 0)
                 {
+                    // Animation of health that disappears
                     this.gameObject.SetActive(false);
                 }
-            }
+            }*/
         }
     }
 }
