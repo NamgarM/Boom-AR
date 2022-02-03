@@ -862,7 +862,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardsCollection: {fileID: 286541068}
-  _usedCardsCollection: {fileID: 1018347146}
 --- !u!114 &1659859601
 MonoBehaviour:
   m_ObjectHideFlags: 0
