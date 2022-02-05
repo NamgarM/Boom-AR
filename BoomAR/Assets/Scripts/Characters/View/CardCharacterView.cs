@@ -1,6 +1,6 @@
 using GrowAR.Characters.Models;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 using static GrowAR.Characters.Infrastructure.CardCharactersSignals;
 
@@ -8,8 +8,16 @@ namespace GrowAR.Characters.View
 {
     public class CardCharacterView : MonoBehaviour
     {
-        [SerializeField] private Slider _healthBar;
-        [SerializeField] private Slider _attackPowerBar;
+        [SerializeField] private TextMeshProUGUI _healthIndicator;
+        [SerializeField] private TextMeshProUGUI _energyIndicator;
+        [Space]
+        [Space]
+        [SerializeField] private AnimateCharacterAppearance _animateCharacterAppearance;
+        [SerializeField] private AnimateCharacterCollision _animateCharacterCollision;
+        [SerializeField] private Material[] _characterMaterials;
+
+        private float _animationAmountPerSecond = 0.25f;
+        private bool _isAnimationPlayed = false;
 
         private CardCharacterController _characterController;
         private SignalBus _signalBus;
@@ -46,61 +54,53 @@ namespace GrowAR.Characters.View
 
             _characterController.SetCharacterView(this);
 
-            UpdateView(null, characterInconstantModel);
+            UpdateView(null, characterInconstantModel, null);
             _characterController.CardsCollided += UpdateView;
+            _animateCharacterAppearance?.Initialize(_characterMaterials);
 
+        }
+
+        private void Update()
+        {
+            if (_isAnimationPlayed == false && _animateCharacterAppearance != null)
+                _isAnimationPlayed = _animateCharacterAppearance
+                    .IsAppearingAnimationShowed(_characterMaterials, _animationAmountPerSecond);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (collision.rigidbody != null)
+                collision.rigidbody.isKinematic = true;
+
             _signalBus.Fire(new CardCharacterCollidedSignal()
             {
                 CharacterId = this.gameObject.name,
-                CollidedCharacterId = collision.gameObject.name
+                CollidedCharacterId = collision.gameObject.name,
+                OpponentObject = collision.gameObject
             });
-
         }
 
-        private void UpdateView(string animationType, CardCharacterInconstantModel characterInconstantModel)
+        private void UpdateView(string animationType, 
+            CardCharacterInconstantModel characterInconstantModel,
+            GameObject opponent)
         {
             // Play animation
-            switch(animationType)
+            switch (animationType)
             {
                 case "Healing":
+                    _animateCharacterCollision?
+                        .ShowCollisionAnimation(opponent.transform.position, null, _healthIndicator
+                        .transform.parent.gameObject);
                     break;
                 case null:
                     break;
             }
 
             // Update Healthbar
-            _healthBar.value = characterInconstantModel.CurrentHealth;
-            _attackPowerBar.value = characterInconstantModel.CurrentEnergy;
-
-            if (_healthBar.value <= 0)
-                this.gameObject.SetActive(false);
-
-            /*
-            // Check first
-            if (firstCharacterInconstantModel.CharacterId == this.gameObject.name)
-            {
-                if (firstCharacterInconstantModel.CurrentHealth <= 0)
-                {
-                    // Animation of health that disappears
-                    this.gameObject.SetActive(false);
-                }
-                // Animation of attack
-                // Animation of healing
-            }
-
-            // Check second
-            if (secondCharacterInconstantModel.CharacterId == this.gameObject.name)
-            {
-                if (secondCharacterInconstantModel.CurrentHealth <= 0)
-                {
-                    // Animation of health that disappears
-                    this.gameObject.SetActive(false);
-                }
-            }*/
+            _energyIndicator.text =
+                characterInconstantModel.CurrentEnergy.ToString();
+            _healthIndicator.text =
+                characterInconstantModel.CurrentHealth.ToString();;
         }
     }
 }

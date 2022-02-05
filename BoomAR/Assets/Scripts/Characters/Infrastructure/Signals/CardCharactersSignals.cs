@@ -9,6 +9,7 @@ namespace GrowAR.Characters.Infrastructure
         {
             public string CharacterId;
             public string CollidedCharacterId;
+            public GameObject OpponentObject;
         }
     }
 }

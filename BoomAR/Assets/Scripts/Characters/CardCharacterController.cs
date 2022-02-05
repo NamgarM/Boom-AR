@@ -22,7 +22,7 @@ public class CardCharacterController
     private CardCharacterView _characterView; //{ get; private set; }
     private SignalBus _signalBus;
 
-    public Action<string, CardCharacterInconstantModel> CardsCollided;
+    public Action<string, CardCharacterInconstantModel, GameObject> CardsCollided;
     public Action<CardCharacterInconstantModel> RemoveCards;
 
     public CardCharacterConstantModel _characterConstantModel = new CardCharacterConstantModel();
@@ -78,16 +78,16 @@ public class CardCharacterController
                 RemoveCards.Invoke(currentCardCharacterInconstantModel);
                 
                 // Update view
-                CardsCollided.Invoke("Healing", currentCardCharacterInconstantModel);
-                CardsCollided.Invoke(null, collidedCardCharacterInconstantModel);
+                CardsCollided.Invoke("Healing", currentCardCharacterInconstantModel, characterCollidedSignal.OpponentObject);
+                CardsCollided.Invoke(null, collidedCardCharacterInconstantModel, null);
             } else if(collidedCardCharacterConstantModel.Skill == "Heal")
             {
                 ApplyPowerUp(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel);
                 RemoveCards.Invoke(collidedCardCharacterInconstantModel);
 
                 // Update view
-                CardsCollided.Invoke("Healing", collidedCardCharacterInconstantModel);
-                CardsCollided.Invoke(null, currentCardCharacterInconstantModel);
+                CardsCollided.Invoke("Healing", collidedCardCharacterInconstantModel, characterCollidedSignal.OpponentObject);
+                CardsCollided.Invoke(null, currentCardCharacterInconstantModel, null);
             }
 
             // Save in dictionary
