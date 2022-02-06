@@ -13,9 +13,9 @@ namespace GrowAR.Animation
             collisionAnimationSequence
                 .Append(Move(to, 5f));
             collisionAnimationSequence
-                .Append(Scale(new Vector3(0.5f, 0.5f, 0.5f), 8f, 0, 0.1f));
+                .Append(Scale(new Vector3(0.5f, 0.5f, 0.5f), 4f, 0, 0.1f));
             collisionAnimationSequence
-                .Append(Scale(new Vector3(0.5f, 0.5f, 0.5f), 8f, 0, 0.1f));
+                .Append(Scale(new Vector3(0.5f, 0.5f, 0.5f), 4f, 0, 0.1f));
             collisionAnimationSequence
                 .AppendCallback(SwitchOff);
         }
@@ -28,7 +28,7 @@ namespace GrowAR.Animation
         private DG.Tweening.Tween Move(Vector3 to, float duration)
         {
             return transform.parent
-                .DOMove(to, 5f);
+                .DOMove(to, 4f);
         }
 
         private DG.Tweening.Tween Scale(Vector3 scaleTo, float duration,

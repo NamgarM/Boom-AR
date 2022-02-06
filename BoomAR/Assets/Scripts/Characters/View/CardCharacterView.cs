@@ -1,10 +1,9 @@
 using GrowAR.Animation;
 using GrowAR.Characters.Models;
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 using Zenject;
 using static GrowAR.Characters.Infrastructure.CardCharactersSignals;
 
@@ -22,6 +21,7 @@ namespace GrowAR.Characters.View
 
         private float _animationAmountPerSecond = 0.25f;
         private bool _isAnimationPlayed = false;
+        private float _statsIndicatorsAnimationSpeed = 1f;
 
         private CardCharacterController _characterController;
         private SignalBus _signalBus;
@@ -60,7 +60,11 @@ namespace GrowAR.Characters.View
             _characterController.SetCharacterView(this);
 
             // UI and animation
-            UpdateView(null, characterInconstantModel, null);
+            //UpdateView(null, characterInconstantModel, null);
+            _energyIndicator.text =
+                characterInconstantModel.CurrentEnergy.ToString();
+            _healthIndicator.text =
+                characterInconstantModel.CurrentHealth.ToString(); ;
             _characterController.CardsCollided += UpdateView;
             _animateCharacterAppearance?.Initialize(_characterMaterials);
 
@@ -86,7 +90,7 @@ namespace GrowAR.Characters.View
                 OpponentObject = collision.gameObject
             });
         }
-
+        /*
         private void UpdateView(string animationType, 
             CardCharacterInconstantModel characterInconstantModel,
             GameObject opponent)
@@ -108,6 +112,67 @@ namespace GrowAR.Characters.View
                 characterInconstantModel.CurrentEnergy.ToString();
             _healthIndicator.text =
                 characterInconstantModel.CurrentHealth.ToString();;
+        }*/
+
+
+        private void UpdateView(string animationType,
+            CardCharacterInconstantModel characterInconstantModel,
+            GameObject opponent,
+            CardCharacterInconstantModel prevCardCharacterInconstantModel)
+        {
+            // Play animation
+            switch (animationType)
+            {
+                case "Healing":
+                    _animateCharacterCollision?
+                        .ShowCollisionAnimation(opponent.transform.position, null, _healthIndicator
+                        .transform.parent.gameObject);
+                    break;
+                case null:
+                    break;
+            }
+
+            AnimateStatsIndicators(characterInconstantModel, prevCardCharacterInconstantModel);
+        }
+
+        private void AnimateStatsIndicators(CardCharacterInconstantModel characterInconstantModel, CardCharacterInconstantModel prevCardCharacterInconstantModel)
+        {
+            if (characterInconstantModel.CurrentEnergy !=
+                prevCardCharacterInconstantModel.CurrentEnergy)
+            {
+                int energyChangeFactor = characterInconstantModel.CurrentEnergy -
+                    prevCardCharacterInconstantModel.CurrentEnergy;
+                StartCoroutine(ChangeStatsIndicators(characterInconstantModel, energyChangeFactor, _energyIndicator));
+
+            }
+            if (characterInconstantModel.CurrentHealth !=
+                prevCardCharacterInconstantModel.CurrentHealth)
+            {
+                int healthChangeFactor = characterInconstantModel.CurrentHealth -
+                prevCardCharacterInconstantModel.CurrentHealth;
+                StartCoroutine(ChangeStatsIndicators(characterInconstantModel, healthChangeFactor, _healthIndicator));
+
+            }
+        }
+
+        IEnumerator ChangeStatsIndicators(CardCharacterInconstantModel characterInconstantModel,
+            int factor, TextMeshProUGUI textMesh)
+        {
+            for (int i = 0; i < Math.Abs(factor) + 1; i++)
+            {
+                if (factor < 0)
+                {
+                    textMesh.text =
+                        (characterInconstantModel.CurrentHealth + (factor - i)).ToString();
+                    yield return new WaitForSeconds(_statsIndicatorsAnimationSpeed);
+                }
+                else
+                {
+                    textMesh.text =
+                        (characterInconstantModel.CurrentHealth - (factor - i)).ToString();
+                    yield return new WaitForSeconds(_statsIndicatorsAnimationSpeed);
+                }
+            }
         }
     }
 }
