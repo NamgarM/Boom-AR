@@ -1,8 +1,5 @@
 using GrowAR.Characters.Models;
 using GrowAR.Characters.View;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -47,7 +44,7 @@ namespace GrowAR.Characters.Infrastructure
             Container.BindSignal<CardCharactersSignals.CardCharacterCollidedSignal>()
                 .ToMethod<CardCharacterController>(x => x.ApplyCollision).FromResolve();
             //Container.BindSignal<CharactersSignals.CharacterCollidedSignal>()
-                //.ToMethod<CharacterView>(x => x.ApplyCollision).FromResolve();
+            //.ToMethod<CharacterView>(x => x.ApplyCollision).FromResolve();
         }
 
         private void BindModels()
