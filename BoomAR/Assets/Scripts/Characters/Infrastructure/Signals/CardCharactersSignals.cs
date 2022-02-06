@@ -1,3 +1,4 @@
+using GrowAR.Characters.View;
 using UnityEngine;
 
 namespace GrowAR.Characters.Infrastructure
@@ -9,6 +10,7 @@ namespace GrowAR.Characters.Infrastructure
             public string CharacterId;
             public string CollidedCharacterId;
             public GameObject OpponentObject;
+            public CardCharacterView CardCharacterView;
         }
     }
 }
