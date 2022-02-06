@@ -43,16 +43,16 @@ MonoBehaviour:
     version: 1.4.17-release.0
     id: com.kyrylokuzyk.arfoundationremote
   - displayName: AR Foundation
-    version: 4.1.7
+    version: 4.1.9
     id: com.unity.xr.arfoundation
   - displayName: ARCore XR Plugin
-    version: 4.1.7
+    version: 4.1.9
     id: com.unity.xr.arcore
   - displayName: ARKit XR Plugin
     version: 4.1.7
     id: com.unity.xr.arkit
   - displayName: AR Subsystems
-    version: 4.1.7
+    version: 4.1.9
     id: com.unity.xr.arsubsystems
   inputHandlingData:
     isLegacyInputManagerEnabled: 1

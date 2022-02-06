@@ -1,4 +1,3 @@
-using GrowAR.Characters.Models;
 using UnityEngine;
 
 namespace GrowAR.Characters.Infrastructure

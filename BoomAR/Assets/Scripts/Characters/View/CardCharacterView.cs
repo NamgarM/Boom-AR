@@ -1,6 +1,10 @@
+using GrowAR.Animation;
 using GrowAR.Characters.Models;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 using Zenject;
 using static GrowAR.Characters.Infrastructure.CardCharactersSignals;
 
@@ -21,6 +25,7 @@ namespace GrowAR.Characters.View
 
         private CardCharacterController _characterController;
         private SignalBus _signalBus;
+
 
         // Load collection of CharacterConstantModel
         // Search (CharacterConstantModel) id of the card by name
@@ -54,6 +59,7 @@ namespace GrowAR.Characters.View
 
             _characterController.SetCharacterView(this);
 
+            // UI and animation
             UpdateView(null, characterInconstantModel, null);
             _characterController.CardsCollided += UpdateView;
             _animateCharacterAppearance?.Initialize(_characterMaterials);
@@ -62,6 +68,7 @@ namespace GrowAR.Characters.View
 
         private void Update()
         {
+            // Appearing animation
             if (_isAnimationPlayed == false && _animateCharacterAppearance != null)
                 _isAnimationPlayed = _animateCharacterAppearance
                     .IsAppearingAnimationShowed(_characterMaterials, _animationAmountPerSecond);

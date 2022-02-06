@@ -1,28 +1,31 @@
 using UnityEngine;
 
-public class AnimateCharacterAppearance : MonoBehaviour
+namespace GrowAR.Animation
 {
-    private const string _animationFactorName = "_Cutoff";
-
-    public void Initialize(Material[] materials)
+    public class AnimateCharacterAppearance : MonoBehaviour
     {
-        foreach (Material material in materials)
-        {
-            material.SetFloat("_Cutoff", 1);
-        }
-    }
+        private const string _animationFactorName = "_Cutoff";
 
-    public bool IsAppearingAnimationShowed(Material[] materials, float amountPerSecond)
-    {
-        foreach (Material material in materials)
+        public void Initialize(Material[] materials)
         {
-            if (material?.GetFloat(_animationFactorName) > 0f)
-                material?
-                   .SetFloat(_animationFactorName,
-                   material.GetFloat(_animationFactorName) - (float)(amountPerSecond * Time.deltaTime));
-            else
-                return true;
+            foreach (Material material in materials)
+            {
+                material.SetFloat("_Cutoff", 1);
+            }
         }
-        return false;
+
+        public bool IsAppearingAnimationShowed(Material[] materials, float amountPerSecond)
+        {
+            foreach (Material material in materials)
+            {
+                if (material?.GetFloat(_animationFactorName) > 0f)
+                    material?
+                       .SetFloat(_animationFactorName,
+                       material.GetFloat(_animationFactorName) - (float)(amountPerSecond * Time.deltaTime));
+                else
+                    return true;
+            }
+            return false;
+        }
     }
 }

@@ -35,23 +35,3 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: HealingCard
     m_Texture: {fileID: 0}
-  - m_SerializedGuid:
-      m_GuidLow: 5565198178661303047
-      m_GuidHigh: 13604628751471509420
-    m_SerializedTextureGuid:
-      m_GuidLow: 13881305702345962108
-      m_GuidHigh: 7544676380888298474
-    m_Size: {x: 0.04, y: 0.07111111}
-    m_SpecifySize: 1
-    m_Name: JinxCard
-    m_Texture: {fileID: 0}
-  - m_SerializedGuid:
-      m_GuidLow: 5021328781054920507
-      m_GuidHigh: 8882101525743539880
-    m_SerializedTextureGuid:
-      m_GuidLow: 9769610846508342849
-      m_GuidHigh: 14910123691584500411
-    m_Size: {x: 0.04, y: 0.07111111}
-    m_SpecifySize: 1
-    m_Name: Healing card
-    m_Texture: {fileID: 0}
