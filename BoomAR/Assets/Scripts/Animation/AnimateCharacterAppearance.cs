@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace GrowAR.Animation
@@ -26,6 +27,16 @@ namespace GrowAR.Animation
                     return true;
             }
             return false;
+        }
+
+        public void ResetDissolveAnimation(Material[] materials)
+        {
+            foreach (Material material in materials)
+            {
+                if (material?.GetFloat(_animationFactorName) < 1f)
+                    material?
+                       .SetFloat(_animationFactorName, 1f);
+            }
         }
     }
 }

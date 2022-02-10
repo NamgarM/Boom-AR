@@ -18,9 +18,10 @@ namespace GrowAR.Characters.View
         [SerializeField] private AnimateCharacterAppearance _animateCharacterAppearance;
         [SerializeField] private AnimateCharacterCollision _animateCharacterCollision;
         [SerializeField] private Material[] _characterMaterials;
+        [SerializeField] private SoundManager _soundManager;
 
         private float _animationAmountPerSecond = 0.25f;
-        private bool _isAnimationPlayed = false;
+        private bool _isAnimationPlayed = true;
         private float _statsIndicatorsAnimationSpeed = 1f;
 
         private CardCharacterController _characterController;
@@ -72,17 +73,32 @@ namespace GrowAR.Characters.View
 
         private void Update()
         {
-            // Appearing animation
-            if (_isAnimationPlayed == false && _animateCharacterAppearance != null)
+            if (_animateCharacterAppearance != null && !_isAnimationPlayed)
+            {
                 _isAnimationPlayed = _animateCharacterAppearance
                     .IsAppearingAnimationShowed(_characterMaterials, _animationAmountPerSecond);
+
+            }
         }
+
+        private void OnEnable()
+        {
+            _isAnimationPlayed = false;
+            _soundManager?.Play("DissolveSFX", 0.5f);
+        }
+
+        private void OnApplicationQuit()
+        {
+            _animateCharacterAppearance?.ResetDissolveAnimation(_characterMaterials);
+        }
+
 
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.rigidbody != null)
                 collision.rigidbody.isKinematic = true;
 
+            _soundManager?.Play("LongHealingProcessSFX", 1f);
             _signalBus.Fire(new CardCharacterCollidedSignal()
             {
                 CharacterId = this.gameObject.name,
@@ -90,29 +106,6 @@ namespace GrowAR.Characters.View
                 OpponentObject = collision.gameObject
             });
         }
-        /*
-        private void UpdateView(string animationType, 
-            CardCharacterInconstantModel characterInconstantModel,
-            GameObject opponent)
-        {
-            // Play animation
-            switch (animationType)
-            {
-                case "Healing":
-                    _animateCharacterCollision?
-                        .ShowCollisionAnimation(opponent.transform.position, null, _healthIndicator
-                        .transform.parent.gameObject);
-                    break;
-                case null:
-                    break;
-            }
-
-            // Update Healthbar
-            _energyIndicator.text =
-                characterInconstantModel.CurrentEnergy.ToString();
-            _healthIndicator.text =
-                characterInconstantModel.CurrentHealth.ToString();;
-        }*/
 
 
         private void UpdateView(string animationType,

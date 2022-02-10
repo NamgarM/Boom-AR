@@ -43,8 +43,6 @@ namespace GrowAR.Characters.Infrastructure
             Container.DeclareSignal<CardCharactersSignals.CardCharacterCollidedSignal>();
             Container.BindSignal<CardCharactersSignals.CardCharacterCollidedSignal>()
                 .ToMethod<CardCharacterController>(x => x.ApplyCollision).FromResolve();
-            //Container.BindSignal<CharactersSignals.CharacterCollidedSignal>()
-            //.ToMethod<CharacterView>(x => x.ApplyCollision).FromResolve();
         }
 
         private void BindModels()
@@ -76,23 +74,6 @@ namespace GrowAR.Characters.Infrastructure
             .Bind<CardCharacterView>()
             .FromInstance(jinxCardcharacterView)
             .AsSingle();
-            /*
-            CharacterView healingCardCharacterView = Container
-                .InstantiatePrefabForComponent<CharacterView>(JinxCardCharacterViewPrefab, Vector3.zero,
-                Quaternion.identity, _cardsCollection.transform);
-
-            Container
-            .Bind<CharacterView>()
-            .FromInstance(healingCardCharacterView)
-            .AsSingle();*/
-
-            /*
-            .InstantiatePrefabForComponent<CharacterView>
-            (CharacterViewPrefab, Vector3.zero, Quaternion.identity, null);
-
-            Container
-                .Bind<CharacterView>()
-                .FromInstance(characterView);*/
         }
     }
 }
