@@ -162,6 +162,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 286541069}
     m_Modifications:
+    - target: {fileID: 365870940595464062, guid: c1244a5051098d94baaa9f22fe94cf60,
+        type: 3}
+      propertyPath: _soundManager
+      value: 
+      objectReference: {fileID: 1354141931}
     - target: {fileID: 1504440445417337262, guid: c1244a5051098d94baaa9f22fe94cf60,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
@@ -1481,6 +1486,8 @@ GameObject:
   - component: {fileID: 1354141929}
   - component: {fileID: 1354141928}
   - component: {fileID: 1354141927}
+  - component: {fileID: 1354141932}
+  - component: {fileID: 1354141931}
   m_Layer: 0
   m_Name: AR Camera
   m_TagString: MainCamera
@@ -1594,6 +1601,42 @@ Transform:
   m_Father: {fileID: 1659859599}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1354141931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354141925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863aff111ad062941a26932b7d88ad7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sounds:
+  - name: DissolveSFX
+    clip: {fileID: 8300000, guid: a7d0a7e97c7cc9849a9a7eccb2fb8bd2, type: 3}
+    volume: 0.15
+    pitch: 1
+    source: {fileID: 0}
+  - name: LongHealingProcessSFX
+    clip: {fileID: 8300000, guid: d4412dade09a2bd4b9dfbeec64c98171, type: 3}
+    volume: 0.15
+    pitch: 1
+    source: {fileID: 0}
+  - name: MainThemeBGM
+    clip: {fileID: 8300000, guid: 65b617fc919aa4242aa7901d1348502e, type: 3}
+    volume: 0.05
+    pitch: 1
+    source: {fileID: 0}
+--- !u!81 &1354141932
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354141925}
+  m_Enabled: 1
 --- !u!1 &1468602184
 GameObject:
   m_ObjectHideFlags: 0
@@ -1834,8 +1877,13 @@ PrefabInstance:
     - target: {fileID: 725050315299616374, guid: 52438f36151cb2343ac43bfe6598c588,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1381445431675184290, guid: 52438f36151cb2343ac43bfe6598c588,
+        type: 3}
+      propertyPath: _soundManager
+      value: 
+      objectReference: {fileID: 1354141931}
     - target: {fileID: 4385007275499961467, guid: 52438f36151cb2343ac43bfe6598c588,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
