@@ -88,7 +88,6 @@ namespace GrowAR.Characters
                     collidedCardCharacterInconstantModel.CurrentHealth
                 };
 
-
                 // Apply power up
                 if (currentCardCharacterConstantModel.Skill == "Heal")
                 {
@@ -136,7 +135,6 @@ namespace GrowAR.Characters
                     currentCardCharacterInconstantModel;
                 CardCharacterModels[characterCollidedSignal.CollidedCharacterId].CharacterInconstantModel =
                     collidedCardCharacterInconstantModel;
-                // Invoke view
 
                 // To clean next time
                 _characterId = characterCollidedSignal.CharacterId;
@@ -156,6 +154,11 @@ namespace GrowAR.Characters
         {
             cardInconstantModel.CurrentHealth -= applyingCardModel.CurrentEnergy;
             cardInconstantModel.CurrentEnergy -= cardInconstantModel.CurrentEnergy; //index * applyingCardModel.CurrentEnergy;
+
+            cardInconstantModel.CurrentHealth = cardInconstantModel.CurrentHealth < 0 ?
+                0 : cardInconstantModel.CurrentHealth;
+            cardInconstantModel.CurrentEnergy = cardInconstantModel.CurrentEnergy < 0 ?
+                0 : cardInconstantModel.CurrentEnergy;
         }
 
         private void AddNewStats(CardCharacterInconstantModel cardInconstantModel,
