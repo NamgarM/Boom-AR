@@ -1,32 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
+using BoomAR.Utils;
 using UnityEngine;
 
-public class TutorialWindow : MonoBehaviour
+namespace BoomAR
 {
-    // Start is called before the first frame update
-    void Awake()
+    public class TutorialWindow : MonoBehaviour
     {
-        //PlayerPrefs.SetFloat("DidShowTutorial", 0f);
-        bool showTutorial = DidShowTutorial();
-        switch(showTutorial)
+        // Start is called before the first frame update
+        void Awake()
         {
-            case true:
-                SetTutorialAsShown();
-                break;
+            bool showTutorial = DidShowTutorial();
+            switch (showTutorial)
+            {
+                case true:
+                    SetTutorialAsShown();
+                    break;
+            }
+
+            this.gameObject.SetActive(showTutorial);
         }
 
-        this.gameObject.SetActive(showTutorial);
+        private bool DidShowTutorial()
+        {
+            return !(PlayerPrefs.GetFloat(Constants.DidShowTutorial, 0f) == 1);
+        }
 
-    }
-
-    private bool DidShowTutorial()
-    {
-        return !(PlayerPrefs.GetFloat("DidShowTutorial", 0f) == 1);
-    }
-
-    private void SetTutorialAsShown()
-    {
-        PlayerPrefs.SetFloat("DidShowTutorial", 1f);
+        private void SetTutorialAsShown()
+        {
+            PlayerPrefs.SetFloat(Constants.DidShowTutorial, 1f);
+        }
     }
 }
