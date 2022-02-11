@@ -1,5 +1,6 @@
 using GrowAR.Characters;
 using GrowAR.Characters.Models;
+using GrowAR.Characters.View;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -12,10 +13,11 @@ namespace GrowAR.Cards
     {
         [SerializeField] private GameObject _cardsCollection;
 
-        private Dictionary<string, GameObject> _createdPrefabs
-            = new Dictionary<string, GameObject>();
-        private Dictionary<string, GameObject> _usedCardsCollection
-            = new Dictionary<string, GameObject>();
+        private Dictionary<string, CardCharacterView> _createdPrefabs
+            = new Dictionary<string, CardCharacterView>();
+        private Dictionary<string, CardCharacterView> _usedCardsCollection
+            = new Dictionary<string, CardCharacterView>();
+
         private ARTrackedImageManager _arTrackedImageManager;
 
         private CardCharacterController _characterController;
@@ -32,7 +34,8 @@ namespace GrowAR.Cards
         {
             if (_createdPrefabs.ContainsKey(characterInconstantModel.CharacterId))
             {
-                _usedCardsCollection.Add(characterInconstantModel.CharacterId, _createdPrefabs[characterInconstantModel.CharacterId]);
+                _usedCardsCollection.Add(characterInconstantModel.CharacterId, 
+                    _createdPrefabs[characterInconstantModel.CharacterId]);
                 _createdPrefabs.Remove(characterInconstantModel.CharacterId);
             }
         }
@@ -45,7 +48,7 @@ namespace GrowAR.Cards
 
             foreach (Transform card in _cardsCollection.transform)
             {
-                _createdPrefabs.Add(card.name, card.gameObject);
+                _createdPrefabs.Add(card.name, card.GetComponent<CardCharacterView>());
                 card.gameObject.SetActive(false);
             }
         }
@@ -67,7 +70,7 @@ namespace GrowAR.Cards
             }
             foreach (ARTrackedImage aRTrackedImage in eventArgsObj.removed)
             {
-                _createdPrefabs[aRTrackedImage.name].SetActive(false);
+                _createdPrefabs[aRTrackedImage.name].gameObject.SetActive(false);
             }
             foreach (ARTrackedImage aRTrackedImage in eventArgsObj.updated)
             {
@@ -83,9 +86,12 @@ namespace GrowAR.Cards
             GameObject prefab;
             if (_createdPrefabs.ContainsKey(name))
             {
-                prefab = _createdPrefabs[name];
+                prefab = _createdPrefabs[name].gameObject;
                 prefab.transform.position = pos;
                 prefab?.SetActive(true);
+
+                if (!_createdPrefabs[name].enabled)
+                    _createdPrefabs[name].enabled = true;
             }
         }
     }

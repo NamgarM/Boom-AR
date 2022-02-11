@@ -49,6 +49,13 @@ namespace GrowAR.Characters
             healingModel.Skill = "Heal";
             _characterConstantModels.Add(healingModel);
 
+            CardCharacterConstantModel opponentModel = new CardCharacterConstantModel();
+            opponentModel.CharacterId = "BlitzcrankCard";
+            opponentModel.StartingEnergy = 2;
+            opponentModel.StartingHealth = 1;
+            opponentModel.Skill = "Attack";
+            _characterConstantModels.Add(opponentModel);
+
         }
 
         public void ApplyCollision(CardCharactersSignals.CardCharacterCollidedSignal characterCollidedSignal)
@@ -85,7 +92,8 @@ namespace GrowAR.Characters
                 // Apply power up
                 if (currentCardCharacterConstantModel.Skill == "Heal")
                 {
-                    ApplyPowerUp(collidedCardCharacterInconstantModel, currentCardCharacterInconstantModel);
+                    AddNewStats(collidedCardCharacterInconstantModel, currentCardCharacterInconstantModel, 1);
+                    Nullify(currentCardCharacterInconstantModel);
                     RemoveCards.Invoke(currentCardCharacterInconstantModel);
 
                     // Update view
@@ -97,7 +105,8 @@ namespace GrowAR.Characters
                 }
                 else if (collidedCardCharacterConstantModel.Skill == "Heal")
                 {
-                    ApplyPowerUp(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel);
+                    AddNewStats(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel, 1);
+                    Nullify(collidedCardCharacterInconstantModel);
                     RemoveCards.Invoke(collidedCardCharacterInconstantModel);
 
                     // Update view
@@ -105,6 +114,20 @@ namespace GrowAR.Characters
                         characterCollidedSignal.OpponentObject,
                         prevCardCharacterInconstantModel);
                     CardsCollided.Invoke(null, currentCardCharacterInconstantModel, null,
+                        prevCollidedCardCharacterInconstantModel);
+                }
+                else if (currentCardCharacterConstantModel.Skill == "Attack"
+                  && collidedCardCharacterConstantModel.Skill == "Attack")
+                {
+                    ApplyNewStats(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel, -1);
+                    ApplyNewStats(collidedCardCharacterInconstantModel, prevCardCharacterInconstantModel, -1);
+
+                    // Update view
+                    CardsCollided.Invoke(null, collidedCardCharacterInconstantModel,
+                        characterCollidedSignal.CardCharacterView.gameObject,
+                        prevCardCharacterInconstantModel);
+                    CardsCollided.Invoke(null, currentCardCharacterInconstantModel, 
+                        characterCollidedSignal.OpponentObject,
                         prevCollidedCardCharacterInconstantModel);
                 }
 
@@ -127,10 +150,24 @@ namespace GrowAR.Characters
             }
         }
 
-        private void ApplyPowerUp(CardCharacterInconstantModel cardInconstantModel, CardCharacterInconstantModel applyingCardModel)
+        private void ApplyNewStats(CardCharacterInconstantModel cardInconstantModel, 
+            CardCharacterInconstantModel applyingCardModel,
+            int index)
         {
-            cardInconstantModel.CurrentEnergy += applyingCardModel.CurrentEnergy;
+            cardInconstantModel.CurrentHealth -= applyingCardModel.CurrentEnergy;
+            cardInconstantModel.CurrentEnergy -= cardInconstantModel.CurrentEnergy; //index * applyingCardModel.CurrentEnergy;
+        }
+
+        private void AddNewStats(CardCharacterInconstantModel cardInconstantModel,
+            CardCharacterInconstantModel applyingCardModel,
+            int index)
+        {
             cardInconstantModel.CurrentHealth += applyingCardModel.CurrentHealth;
+            cardInconstantModel.CurrentEnergy += applyingCardModel.CurrentEnergy;
+        }
+
+        private void Nullify(CardCharacterInconstantModel applyingCardModel)
+        {
             applyingCardModel.CurrentEnergy = 0;
             applyingCardModel.CurrentHealth = 0;
         }
