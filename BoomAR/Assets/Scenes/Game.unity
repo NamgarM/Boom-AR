@@ -1290,6 +1290,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1381445431675184290, guid: c00dbd82abf96524eb0bb6d3d055bff5,
+        type: 3}
+      propertyPath: _soundManager
+      value: 
+      objectReference: {fileID: 1354141931}
     - target: {fileID: 6736244956451539991, guid: c00dbd82abf96524eb0bb6d3d055bff5,
         type: 3}
       propertyPath: m_RootOrder
@@ -1987,7 +1992,7 @@ PrefabInstance:
     - target: {fileID: 6736244956451539991, guid: 52438f36151cb2343ac43bfe6598c588,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.11415348
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6736244956451539991, guid: 52438f36151cb2343ac43bfe6598c588,
         type: 3}

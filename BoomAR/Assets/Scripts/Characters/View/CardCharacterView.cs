@@ -151,11 +151,7 @@ namespace GrowAR.Characters.View
 
         private void AnimateStatsIndicators(int currentStats, int prevStats, TextMeshProUGUI textMeshProUGUI)
         {
-            int changeFactor = currentStats < 0 ?
-                prevStats :
-                currentStats - prevStats;
-            currentStats = currentStats < 0 ?
-                0 : currentStats;
+            int changeFactor = prevStats - currentStats;
 
             StartCoroutine(ChangeStatsIndicators(currentStats, changeFactor, textMeshProUGUI));
         }
