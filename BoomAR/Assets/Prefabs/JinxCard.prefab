@@ -62,11 +62,13 @@ MonoBehaviour:
   _healthIndicator: {fileID: 8481297105301625512}
   _energyIndicator: {fileID: 38835649492375322}
   _animateCharacterAppearance: {fileID: 4250971262050605428}
-  _animateCharacterCollision: {fileID: 0}
+  _character: {fileID: 0}
   _characterMaterials:
   - {fileID: 2100000, guid: 85da8d595dc91c345b7ff05422ae5c48, type: 2}
   - {fileID: 2100000, guid: 9c75364d9f127424fb6a514bc22d6602, type: 2}
   - {fileID: 2100000, guid: b507dbe47d784f949ba5da372f80d3b2, type: 2}
+  _soundManager: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!1 &6930275631231314247
 GameObject:
   m_ObjectHideFlags: 0

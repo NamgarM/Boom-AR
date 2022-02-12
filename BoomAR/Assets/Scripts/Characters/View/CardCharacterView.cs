@@ -18,8 +18,11 @@ namespace GrowAR.Characters.View
         [Space]
         [SerializeField] private AnimateCharacterAppearance _animateCharacterAppearance;
         [SerializeField] private AnimateCharacterCollision _animateCharacterCollision;
+        [SerializeField] private Transform _character;
         [SerializeField] private Material[] _characterMaterials;
         [SerializeField] private SoundManager _soundManager;
+        [SerializeField] private Animator _animator;
+
 
         private float _animationAmountPerSecond = 0.25f;
         private bool _isAnimationPlayed = true;
@@ -33,8 +36,9 @@ namespace GrowAR.Characters.View
         // Search (CharacterConstantModel) id of the card by name
         // Put it new created non constant (for this particular character?)
         [Inject]
-        public void Construct(SignalBus signalBus, CardCharacterController characterController)
+        public void Construct(AnimateCharacterCollision animateCharacterCollision, SignalBus signalBus, CardCharacterController characterController)
         {
+            _animateCharacterCollision = animateCharacterCollision;
             _characterController = characterController;
             _signalBus = signalBus;
 
@@ -118,12 +122,16 @@ namespace GrowAR.Characters.View
                 // Play animation
                 switch (animationType)
                 {
-                    case "Healing":
+                    case "Heal":
                         _animateCharacterCollision?
-                            .ShowCollisionAnimation(opponent.transform.position, null, _healthIndicator
-                            .transform.parent.gameObject);
+                            .ShowHealingCollisionAnimation(opponent.transform.position, null, _healthIndicator
+                            .transform.parent.gameObject, _character);
                         break;
-                    case null:
+                    case "Attack":
+                        this.transform
+                            .LookAt(new Vector3(opponent.transform.position.x, this.transform.position.y, this.transform.position.z));
+                        _animateCharacterCollision?
+                            .ShowShootingAnimation(_animator);
                         break;
                 }
 
@@ -136,35 +144,39 @@ namespace GrowAR.Characters.View
             if (characterInconstantModel.CurrentEnergy !=
                 prevCardCharacterInconstantModel.CurrentEnergy)
             {
-                AnimateStatsIndicators(characterInconstantModel.CurrentEnergy,
+                StartCoroutine(AnimateStatsIndicators(characterInconstantModel.CurrentEnergy,
                     prevCardCharacterInconstantModel.CurrentEnergy,
-                    _energyIndicator);
+                    _energyIndicator));
             }
             if (characterInconstantModel.CurrentHealth !=
                 prevCardCharacterInconstantModel.CurrentHealth)
             {
-                AnimateStatsIndicators(characterInconstantModel.CurrentHealth,
+                StartCoroutine(AnimateStatsIndicators(characterInconstantModel.CurrentHealth,
                     prevCardCharacterInconstantModel.CurrentHealth,
-                    _healthIndicator);
+                    _healthIndicator));
+            }
+
+            if(characterInconstantModel.CurrentHealth <= 0 && _characterMaterials.Length != 0)
+            {
+                _animateCharacterAppearance.Dissolve(_characterMaterials, _animationAmountPerSecond);
             }
         }
 
-        private void AnimateStatsIndicators(int currentStats, int prevStats, TextMeshProUGUI textMeshProUGUI)
+        IEnumerator AnimateStatsIndicators(int currentStats,
+            int prevStats, TextMeshProUGUI textMesh)
         {
-            int changeFactor = prevStats - currentStats;
-
-            StartCoroutine(ChangeStatsIndicators(currentStats, changeFactor, textMeshProUGUI));
-        }
-
-        IEnumerator ChangeStatsIndicators(int stats,
-            int factor, TextMeshProUGUI textMesh)
-        {
-            for (int i = 0; i < Math.Abs(factor) + 1; i++)
+            for (int i = 0; i < 11; i++)
             {
-                textMesh.text =
-                    (stats + Math.Sign(factor) * (factor - i)).ToString();
+                textMesh.text = ((int)Mathf.Lerp(prevStats, currentStats, i*0.1f)).ToString();
                 yield return new WaitForSeconds(_statsIndicatorsAnimationSpeed);
             }
+            ApplyIdleAnimation();
+        }
+
+        private void ApplyIdleAnimation()
+        {
+            _animateCharacterCollision?
+                            .StartIdleAnimation(_animator);
         }
     }
 }

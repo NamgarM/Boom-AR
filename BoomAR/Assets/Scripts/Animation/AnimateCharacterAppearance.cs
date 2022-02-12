@@ -29,6 +29,17 @@ namespace GrowAR.Animation
             return false;
         }
 
+        public void Dissolve(Material[] materials, float amountPerSecond)
+        {
+            foreach (Material material in materials)
+            {
+                if (material?.GetFloat(_animationFactorName) <= 0f)
+                    material?
+                       .SetFloat(_animationFactorName,
+                       material.GetFloat(_animationFactorName) + (float)(amountPerSecond * Time.deltaTime));
+            }
+        }
+
         public void ResetDissolveAnimation(Material[] materials)
         {
             foreach (Material material in materials)
