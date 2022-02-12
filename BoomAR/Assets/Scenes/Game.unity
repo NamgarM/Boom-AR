@@ -1791,6 +1791,11 @@ MonoBehaviour:
     volume: 0.05
     pitch: 1
     source: {fileID: 0}
+  - name: ShootingSFX
+    clip: {fileID: 8300000, guid: d6cf59d3af3090941bc1c9ae3d65e25a, type: 3}
+    volume: 0.05
+    pitch: 1
+    source: {fileID: 0}
 --- !u!81 &1354141932
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2562,18 +2567,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1903958071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1903958066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db965add91d5a174f97ad63a86f4f172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2015893548
 GameObject:
   m_ObjectHideFlags: 0
