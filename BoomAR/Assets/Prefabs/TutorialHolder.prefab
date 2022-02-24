@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Step 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1c33db9f23aed3342af26f6fc8b776c9, type: 2}
-  m_sharedMaterial: {fileID: 6774676491214088311, guid: 1c33db9f23aed3342af26f6fc8b776c9,
+  m_fontAsset: {fileID: 11400000, guid: 99d5be972362f9c4db561f7320ea8a3e, type: 2}
+  m_sharedMaterial: {fileID: -2328341461736496822, guid: 99d5be972362f9c4db561f7320ea8a3e,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -203,8 +203,8 @@ MonoBehaviour:
   m_text: "When the game starts, choose character card, place it on a flat surface
     and scan it with phone.\r\n "
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 99acdeb6d8f2d22419c7c1dbfa4e733e, type: 2}
-  m_sharedMaterial: {fileID: -4274109928823225505, guid: 99acdeb6d8f2d22419c7c1dbfa4e733e,
+  m_fontAsset: {fileID: 11400000, guid: f8a2a3cd6c952c9499363f7f2d1041d1, type: 2}
+  m_sharedMaterial: {fileID: 1680977272373309884, guid: f8a2a3cd6c952c9499363f7f2d1041d1,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
