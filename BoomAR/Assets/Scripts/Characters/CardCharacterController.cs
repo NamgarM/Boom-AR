@@ -17,7 +17,7 @@ namespace GrowAR.Characters
         private CardCharacterView _characterView; //{ get; private set; }
         private SignalBus _signalBus;
 
-        public Action<string, CardCharacterInconstantModel, GameObject, CardCharacterInconstantModel> CardsCollided;
+        public Action<string, CardCharacterInconstantModel, GameObject, CardCharacterInconstantModel, int> CardsCollided;
         public Action<CardCharacterInconstantModel> RemoveCards;
 
         public CardCharacterConstantModel _characterConstantModel = new CardCharacterConstantModel();
@@ -91,43 +91,43 @@ namespace GrowAR.Characters
                 // Apply power up
                 if (currentCardCharacterConstantModel.Skill == "Heal")
                 {
-                    AddNewStats(collidedCardCharacterInconstantModel, currentCardCharacterInconstantModel, 1);
+                    AddNewStats(collidedCardCharacterInconstantModel, currentCardCharacterInconstantModel);
                     Nullify(currentCardCharacterInconstantModel);
                     RemoveCards.Invoke(currentCardCharacterInconstantModel);
 
                     // Update view
-                    CardsCollided.Invoke("Healing", currentCardCharacterInconstantModel,
+                    CardsCollided.Invoke(currentCardCharacterConstantModel.Skill, currentCardCharacterInconstantModel,
                         characterCollidedSignal.OpponentObject,
-                        prevCardCharacterInconstantModel);
+                        prevCardCharacterInconstantModel, -1);
                     CardsCollided.Invoke(null, collidedCardCharacterInconstantModel, null,
-                        prevCollidedCardCharacterInconstantModel);
+                        prevCollidedCardCharacterInconstantModel, -1);
                 }
                 else if (collidedCardCharacterConstantModel.Skill == "Heal")
                 {
-                    AddNewStats(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel, 1);
+                    AddNewStats(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel);
                     Nullify(collidedCardCharacterInconstantModel);
                     RemoveCards.Invoke(collidedCardCharacterInconstantModel);
 
                     // Update view
-                    CardsCollided.Invoke("Healing", collidedCardCharacterInconstantModel,
+                    CardsCollided.Invoke(collidedCardCharacterConstantModel.Skill, collidedCardCharacterInconstantModel,
                         characterCollidedSignal.OpponentObject,
-                        prevCardCharacterInconstantModel);
+                        prevCardCharacterInconstantModel, -1);
                     CardsCollided.Invoke(null, currentCardCharacterInconstantModel, null,
-                        prevCollidedCardCharacterInconstantModel);
+                        prevCollidedCardCharacterInconstantModel, -1);
                 }
                 else if (currentCardCharacterConstantModel.Skill == "Attack"
                   && collidedCardCharacterConstantModel.Skill == "Attack")
                 {
-                    ApplyNewStats(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel, -1);
-                    ApplyNewStats(collidedCardCharacterInconstantModel, prevCardCharacterInconstantModel, -1);
+                    ApplyNewStats(currentCardCharacterInconstantModel, collidedCardCharacterInconstantModel);
+                    ApplyNewStats(collidedCardCharacterInconstantModel, prevCardCharacterInconstantModel);
 
                     // Update view
-                    CardsCollided.Invoke(null, collidedCardCharacterInconstantModel,
+                    CardsCollided.Invoke(collidedCardCharacterConstantModel.Skill, collidedCardCharacterInconstantModel,
                         characterCollidedSignal.CardCharacterView.gameObject,
-                        prevCardCharacterInconstantModel);
-                    CardsCollided.Invoke(null, currentCardCharacterInconstantModel, 
+                        prevCardCharacterInconstantModel, currentCardCharacterInconstantModel.CurrentHealth);
+                    CardsCollided.Invoke(currentCardCharacterConstantModel.Skill, currentCardCharacterInconstantModel, 
                         characterCollidedSignal.OpponentObject,
-                        prevCollidedCardCharacterInconstantModel);
+                        prevCollidedCardCharacterInconstantModel, collidedCardCharacterInconstantModel.CurrentHealth);
                 }
 
                 // Save in dictionary
@@ -149,21 +149,20 @@ namespace GrowAR.Characters
         }
 
         private void ApplyNewStats(CardCharacterInconstantModel cardInconstantModel, 
-            CardCharacterInconstantModel applyingCardModel,
-            int index)
+            CardCharacterInconstantModel applyingCardModel)
         {
             cardInconstantModel.CurrentHealth -= applyingCardModel.CurrentEnergy;
-            cardInconstantModel.CurrentEnergy -= cardInconstantModel.CurrentEnergy; //index * applyingCardModel.CurrentEnergy;
+            cardInconstantModel.CurrentEnergy = 0; 
 
-            cardInconstantModel.CurrentHealth = cardInconstantModel.CurrentHealth < 0 ?
-                0 : cardInconstantModel.CurrentHealth;
-            cardInconstantModel.CurrentEnergy = cardInconstantModel.CurrentEnergy < 0 ?
-                0 : cardInconstantModel.CurrentEnergy;
+            if(cardInconstantModel.CurrentHealth <= 0)
+            {
+                cardInconstantModel.CurrentHealth = 0;
+                RemoveCards.Invoke(cardInconstantModel);
+            }
         }
 
         private void AddNewStats(CardCharacterInconstantModel cardInconstantModel,
-            CardCharacterInconstantModel applyingCardModel,
-            int index)
+            CardCharacterInconstantModel applyingCardModel)
         {
             cardInconstantModel.CurrentHealth += applyingCardModel.CurrentHealth;
             cardInconstantModel.CurrentEnergy += applyingCardModel.CurrentEnergy;
