@@ -37,7 +37,7 @@ Shader "Ultimate 10+ Shaders/Dissolve"
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _NoiseTex ("Noise", 2D) = "white" {}
 
-        _Cutoff ("Cut off", Range(0, 1)) = 1.00
+        _Cutoff ("Cut off", Range(0, 1)) = 0.25
         _EdgeWidth ("Edge Width", Range(0, 1)) = 0.05
         [HDR] _EdgeColor ("Edge Color", Color) = (1,1,1,1)
         
@@ -62,7 +62,7 @@ Shader "Ultimate 10+ Shaders/Dissolve"
         sampler2D _MainTex;
         sampler2D _NoiseTex;
 
-        float _Cutoff;
+        half _Cutoff;
         half _EdgeWidth;
 
         fixed4 _Color;

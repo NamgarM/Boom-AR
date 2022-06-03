@@ -62,10 +62,10 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cull: 0
-    - _Cutoff: 0.66
+    - _Cutoff: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EdgeWidth: 0.02
+    - _EdgeWidth: 0.116
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -82,4 +82,3 @@ Material:
     - _Color: {r: 1, g: 0.60784316, b: 0.60784316, a: 1}
     - _EdgeColor: {r: 0, g: 2.4723806, b: 4.5947933, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  m_BuildTextureStacks: []
